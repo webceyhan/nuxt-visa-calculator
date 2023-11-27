@@ -29,7 +29,7 @@ export const useDateFormula = () => {
         const exited = new Date(exitDate.value);
         const days = differenceInDays(exited, entered);
 
-        return days > 0 ? days : 0;
+        return days < 0 ? 0 : days > MAX_DAYS ? MAX_DAYS : days;
     });
 
     const remainingDays = computed<number>(() => {
