@@ -22,7 +22,7 @@ const valueProxy = computed({
     </label>
 
     <input
-      class="input input-bordered w-full max-w-xs"
+      class="input input-bordered md:input-lg w-full max-w-xs"
       :type="type"
       v-model="valueProxy"
     />

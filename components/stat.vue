@@ -2,7 +2,6 @@
 interface Props {
   title?: string;
   value?: any;
-  desc?: string;
 }
 
 defineProps<Props>();
@@ -13,12 +12,16 @@ defineProps<Props>();
     <div class="stat-figure text-secondary">
       <slot name="figure" />
     </div>
-    <div v-if="title" class="stat-title">{{ title }}</div>
+    <div v-if="title" class="stat-title">
+      {{ title }}
+    </div>
 
     <div class="stat-value">
       <slot>{{ value }}</slot>
     </div>
 
-    <div v-if="desc" class="stat-desc">{{ desc }}</div>
+    <div v-if="$slots.desc" class="stat-desc">
+      <slot name="desc" />
+    </div>
   </div>
 </template>
