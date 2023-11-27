@@ -1,35 +1,13 @@
 <script setup lang="ts">
-import { addDays, differenceInDays, lightFormat, isAfter, isValid } from "date-fns";
-
-const TODAY = new Date();
-const MAX_DAYS = 90;
-const MAX_DAYS_INTERVAL = 180;
-
-// yyyy-mm-dd
-const enterDate = ref("");
-const exitDate = ref("");
-
-const expireDate = computed<Date>(() => {
-  const entered = new Date(enterDate.value);
-
-  return isValid(entered) ? addDays(entered, MAX_DAYS_INTERVAL) : TODAY;
-});
-
-const usedDays = computed<number>(() => {
-  const entered = new Date(enterDate.value);
-  const exited = new Date(exitDate.value);
-  const days = differenceInDays(exited, entered);
-
-  return days > 0 ? days : 0;
-});
-
-const remainingDays = computed<number>(() => {
-  return MAX_DAYS - usedDays.value;
-});
-
-const isExpired = computed<boolean>(() => {
-  return isAfter(TODAY, expireDate.value);
-});
+import { MAX_DAYS, MAX_DAYS_INTERVAL } from "~/constants";
+const {
+  enterDate,
+  exitDate,
+  usedDays,
+  remainingDays,
+  isExpired,
+  expireDateFormatted,
+} = useDateFormula();
 </script>
 
 <template>
@@ -60,7 +38,7 @@ const isExpired = computed<boolean>(() => {
             'text-error': isExpired,
           }"
         >
-          {{ lightFormat(expireDate, "dd / MMM / yyyy") }}
+          {{ expireDateFormatted }}
         </span>
 
         <template #desc> Max {{ MAX_DAYS_INTERVAL }} days from enter date </template>
