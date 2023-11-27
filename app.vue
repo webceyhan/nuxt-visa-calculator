@@ -23,12 +23,13 @@ const {
     <form-control label="Exit Date" type="date" v-model="exitDate" />
 
     <stat-group class="max-md:stats-vertical md:my-10">
-      <stat title="Used Days"> {{ usedDays }} / {{ MAX_DAYS }} </stat>
+      <stat title="Used Days">
+        <countdown :value="usedDays" />
+        / {{ MAX_DAYS }}
+      </stat>
 
       <stat title="Remaining Days">
-        <span :class="{ 'line-through': isExpired }">
-          {{ remainingDays }}
-        </span>
+        <countdown :value="remainingDays" :class="{ 'line-through': isExpired }" />
       </stat>
 
       <stat title="Valid Until">
