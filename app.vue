@@ -1,39 +1,41 @@
 <script setup lang="ts">
-const today = new Date();
-const maxDays = 90;
-const maxDaysInterval = 180;
+import { addDays, differenceInDays, lightFormat, isAfter, isValid } from "date-fns";
+
+const TODAY = new Date();
+const MAX_DAYS = 90;
+const MAX_DAYS_INTERVAL = 180;
 
 // yyyy-mm-dd
-const enterDate = ref("2023-05-13");
-const exitDate = ref("2023-07-19");
+const enterDate = ref("");
+const exitDate = ref("");
 
-const diffInDays = (start: Date, end: Date) => {
-  const diffInMs = Math.abs(end.getTime() - start.getTime());
-  return Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
-};
+const expireDate = computed<Date>(() => {
+  const entered = new Date(enterDate.value);
 
-const expireDate = computed(() => {
-  const date = new Date(enterDate.value);
-  date.setDate(date.getDate() + maxDaysInterval);
-  return date.toDateString();
+  return isValid(entered) ? addDays(entered, MAX_DAYS_INTERVAL) : TODAY;
 });
 
-const usedDays = computed(() => {
+const usedDays = computed<number>(() => {
   const entered = new Date(enterDate.value);
   const exited = new Date(exitDate.value);
+  const days = differenceInDays(exited, entered);
 
-  return diffInDays(entered, exited);
+  return days > 0 ? days : 0;
 });
 
-const remainingDays = computed(() => {
-  return maxDays - usedDays.value;
+const remainingDays = computed<number>(() => {
+  return MAX_DAYS - usedDays.value;
+});
+
+const isExpired = computed<boolean>(() => {
+  return isAfter(TODAY, expireDate.value);
 });
 </script>
 
 <template>
   <div class="container flex flex-col justify-center items-center mx-auto gap-10 p-10">
     <header>
-      <h1 class="text-5xl font-bold">Visa Calculator</h1>
+      <h1 class="text-5xl font-bold text-center">Visa Calculator</h1>
     </header>
 
     <!-- enter date -->
@@ -42,15 +44,26 @@ const remainingDays = computed(() => {
     <!-- exit date -->
     <form-control label="Exit Date" type="date" v-model="exitDate" />
 
-    <stat-group>
-      <stat title="Used Days"> {{ usedDays }} / {{ maxDays }} </stat>
+    <stat-group class="max-md:stats-vertical md:my-10">
+      <stat title="Used Days"> {{ usedDays }} / {{ MAX_DAYS }} </stat>
 
       <stat title="Remaining Days">
-        {{ remainingDays }}
+        <span :class="{ 'line-through': isExpired }">
+          {{ remainingDays }}
+        </span>
       </stat>
 
       <stat title="Valid Until">
-        {{ expireDate }}
+        <span
+          :class="{
+            'text-success': !isExpired,
+            'text-error': isExpired,
+          }"
+        >
+          {{ lightFormat(expireDate, "dd / MMM / yyyy") }}
+        </span>
+
+        <template #desc> Max {{ MAX_DAYS_INTERVAL }} days from enter date </template>
       </stat>
     </stat-group>
   </div>
