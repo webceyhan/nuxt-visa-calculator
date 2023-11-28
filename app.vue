@@ -13,8 +13,8 @@ const {
 
 <template>
   <div class="container flex flex-col justify-center items-center mx-auto gap-10 p-10">
-    <header>
-      <h1 class="text-5xl font-bold text-center my-10">
+    <header class="text-6xl font-bold text-center my-5 md:my-20">
+      <h1 class="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
         {{ $t("welcome") }}
       </h1>
     </header>
