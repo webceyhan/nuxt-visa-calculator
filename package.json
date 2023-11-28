@@ -11,6 +11,7 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
+    "@nuxtjs/i18n": "next",
     "@nuxtjs/tailwindcss": "^6.10.1",
     "daisyui": "latest",
     "nuxt": "^3.8.2",
