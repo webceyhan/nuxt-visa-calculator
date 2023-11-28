@@ -3,8 +3,21 @@ export default defineNuxtConfig({
     devtools: { enabled: true },
     modules: ['@nuxtjs/i18n', '@nuxtjs/tailwindcss'],
     i18n: {
-        locales: ['en', 'tr'],
+        lazy: false,
+        langDir: 'lang',
         defaultLocale: 'en',
         skipSettingLocaleOnNavigate: true,
+        locales: [
+            {
+                code: 'en',
+                name: 'English',
+                file: 'en-US.json',
+            },
+            {
+                code: 'tr',
+                name: 'Türkçe',
+                file: 'tr-TR.json',
+            },
+        ],
     },
 });

@@ -1,0 +1,13 @@
+{
+    "welcome": "Visa Calculator",
+    "date": {
+        "enter": "Enter Date",
+        "exit": "Exit Date",
+        "validUntil": "Valid Until"
+    },
+    "days": {
+        "used": "Used Days",
+        "remaining": "Remaining Days",
+        "maxAllowed": "Max {days} days from enter date"
+    }
+}

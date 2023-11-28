@@ -1,0 +1,13 @@
+{
+    "welcome": "Vize Hesaplama",
+    "date": {
+        "enter": "Giriş Tarihi",
+        "exit": "Çıkış Tarihi",
+        "validUntil": "Geçerlilik Tarihi"
+    },
+    "days": {
+        "used": "Kullanılan Gün",
+        "remaining": "Kalan Gün",
+        "maxAllowed": "Giriş tarihinden itibaren en fazla {days} gün"
+    }
+}
