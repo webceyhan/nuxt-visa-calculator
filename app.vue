@@ -25,7 +25,7 @@ const {
     <stat-group class="max-md:stats-vertical md:my-10">
       <stat title="Used Days">
         <countdown :value="usedDays" />
-        / {{ MAX_DAYS }}
+        <span class="opacity-50"> / {{ MAX_DAYS }} </span>
       </stat>
 
       <stat title="Remaining Days">
