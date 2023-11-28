@@ -14,12 +14,14 @@ const {
 <template>
   <div class="container flex flex-col justify-center items-center mx-auto gap-10 p-10">
     <header>
-      <h1 class="text-5xl font-bold text-center my-10">Visa Calculator</h1>
+      <h1 class="text-5xl font-bold text-center my-10">
+        {{ $t("welcome") }}
+      </h1>
     </header>
 
     <div class="flex flex-col md:flex-row w-full items-center justify-center gap-10">
       <!-- enter date -->
-      <form-control label="Enter Date" type="date" v-model="enterDate" />
+      <form-control :label="$t('date.enter')" type="date" v-model="enterDate" />
 
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -35,7 +37,7 @@ const {
 
       <!-- exit date -->
       <form-control
-        label="Exit Date"
+        :label="$t('date.exit')"
         type="date"
         v-model="exitDate"
         :disabled="!canExit"
@@ -43,16 +45,16 @@ const {
     </div>
 
     <stat-group class="max-md:stats-vertical md:my-10 max-sm:w-full">
-      <stat title="Used Days">
+      <stat :title="$t('days.used')">
         <countdown :value="usedDays" />
         <span class="opacity-50"> / {{ MAX_DAYS }} </span>
       </stat>
 
-      <stat title="Remaining Days">
+      <stat :title="$t('days.remaining')">
         <countdown :value="remainingDays" :class="{ 'line-through': isExpired }" />
       </stat>
 
-      <stat title="Valid Until">
+      <stat :title="$t('date.validUntil')">
         <span
           :class="{
             'text-success': !isExpired,
@@ -62,7 +64,9 @@ const {
           {{ expireDateFormatted }}
         </span>
 
-        <template #desc> Max {{ MAX_DAYS_INTERVAL }} days from enter date </template>
+        <template #desc>
+          {{ $t("days.maxAllowed", { days: MAX_DAYS_INTERVAL }) }}
+        </template>
       </stat>
     </stat-group>
   </div>
