@@ -10,10 +10,12 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v3
 
-            - name: Install and Build 🔧
+            - name: Setup bun
+              uses: oven-sh/setup-bun@v1
 
+            - name: Install and Build
               run: |
-                  bun ci
+                  bun install
                   bun run generate
                   rm -f .output/public/200.html
 
