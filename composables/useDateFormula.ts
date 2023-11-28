@@ -12,6 +12,8 @@ export const useDateFormula = () => {
     const enterDate = ref('');
     const exitDate = ref('');
 
+    const canExit = computed(() => enterDate.value !== '');
+
     const expireDate = computed<Date>(() => {
         const entered = new Date(enterDate.value);
 
@@ -48,5 +50,6 @@ export const useDateFormula = () => {
         usedDays,
         remainingDays,
         isExpired,
+        canExit,
     };
 };

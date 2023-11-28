@@ -7,6 +7,7 @@ const {
   remainingDays,
   isExpired,
   expireDateFormatted,
+  canExit,
 } = useDateFormula();
 </script>
 
@@ -20,7 +21,7 @@ const {
     <form-control label="Enter Date" type="date" v-model="enterDate" />
 
     <!-- exit date -->
-    <form-control label="Exit Date" type="date" v-model="exitDate" />
+    <form-control label="Exit Date" type="date" v-model="exitDate" :disabled="!canExit" />
 
     <stat-group class="max-md:stats-vertical md:my-10">
       <stat title="Used Days">
