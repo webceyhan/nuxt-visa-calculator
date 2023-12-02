@@ -2,7 +2,9 @@
 interface Props {
   label: string;
   type?: "text" | "date";
-  modelValue: string;
+  min?: string | number;
+  max?: string | number;
+  modelValue?: string | number;
   disabled?: boolean;
 }
 
@@ -25,7 +27,7 @@ const valueProxy = computed({
     <input
       class="input input-bordered md:input-lg w-full max-w-xs"
       v-model="valueProxy"
-      v-bind="{ type, disabled }"
+      v-bind="{ type, min, max, disabled }"
     />
   </div>
 </template>
