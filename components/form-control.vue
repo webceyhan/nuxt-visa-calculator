@@ -21,7 +21,7 @@ const valueProxy = computed({
 <template>
   <div class="form-control w-full max-w-xs">
     <label :class="['label', { 'opacity-50': disabled }]">
-      <span class="label-text">{{ label }}</span>
+      <span class="label-text-alt md:label-text">{{ label }}</span>
     </label>
 
     <input

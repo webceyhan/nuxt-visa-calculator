@@ -22,7 +22,7 @@ const exitDateStrProxy = computed({
 </script>
 
 <template>
-  <div class="flex flex-col md:flex-row w-full items-center justify-center gap-10">
+  <div class="flex flex-row w-full items-center justify-center gap-4 md:gap-10">
     <!-- enter date -->
     <form-control :label="$t('date.enter')" type="date" v-model="enterDateStrProxy" />
 
