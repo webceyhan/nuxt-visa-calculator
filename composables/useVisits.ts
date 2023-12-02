@@ -6,7 +6,7 @@ interface Visit {
     exitDate: Date;
 }
 
-export const useDateFormula = () => {
+export const useVisits = () => {
     // STATE
     const visits = reactive<Visit[]>([
         {

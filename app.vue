@@ -10,7 +10,7 @@ const {
   removeLastVisit,
   canAddVisit,
   canRemoveVisit,
-} = useDateFormula();
+} = useVisits();
 </script>
 
 <template>
