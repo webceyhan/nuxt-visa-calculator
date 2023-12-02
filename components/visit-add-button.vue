@@ -1,5 +1,5 @@
 <template>
-  <button type="button" class="btn btn-primary btn-outline btn-lg btn-wide rounded-full">
+  <button type="button" class="btn btn-primary btn-outline md:btn-wide rounded-full">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="currentColor"
