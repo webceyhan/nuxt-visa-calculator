@@ -27,7 +27,7 @@ const {
       v-model:exit-date="visit.exitDate"
     />
 
-    <div class="flex items-center justify-between md:my-10 gap-10">
+    <div class="flex items-center justify-between md:my-10 gap-4 md:gap-10">
       <visit-remove-button :disabled="!canRemoveVisit" @click="removeLastVisit()" />
       <visit-add-button :disabled="!canAddVisit" @click="addNextVisit()" />
     </div>
