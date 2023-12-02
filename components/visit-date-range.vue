@@ -4,8 +4,6 @@ import { formatDate, parseDate } from "~/utils";
 interface Props {
   enterDate: Date;
   exitDate: Date;
-  minDate: Date;
-  maxDate: Date;
 }
 
 const emit = defineEmits(["update:enterDate", "update:exitDate"]);
@@ -21,21 +19,12 @@ const exitDateStrProxy = computed({
   get: () => formatDate(props.exitDate),
   set: (value) => emit("update:exitDate", parseDate(value, props.exitDate)),
 });
-
-const minDateStr = computed(() => formatDate(props.minDate));
-
-const maxDateStr = computed(() => formatDate(props.maxDate));
 </script>
 
 <template>
   <div class="flex flex-col md:flex-row w-full items-center justify-center gap-10">
     <!-- enter date -->
-    <form-control
-      :label="$t('date.enter')"
-      type="date"
-      :min="minDateStr"
-      v-model="enterDateStrProxy"
-    />
+    <form-control :label="$t('date.enter')" type="date" v-model="enterDateStrProxy" />
 
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -54,7 +43,6 @@ const maxDateStr = computed(() => formatDate(props.maxDate));
       :label="$t('date.exit')"
       type="date"
       :min="enterDateStrProxy"
-      :max="maxDateStr"
       v-model="exitDateStrProxy"
     />
   </div>
