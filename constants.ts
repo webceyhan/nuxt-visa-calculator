@@ -1,3 +1,6 @@
+// default date-input date format
+export const DATE_FORMAT = 'yyyy-MM-dd';
+
 // date of today
 export const TODAY = new Date();
 
