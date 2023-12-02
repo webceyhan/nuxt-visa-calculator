@@ -49,7 +49,13 @@ export const useDateFormula = () => {
     });
 
     const canAddVisit = computed<boolean>(() => {
-        return visits.length < MAX_DAYS_PER_VISIT;
+        // cannot add visit if remaining days is 0
+        if (remainingDays.value === 0) return false;
+
+        // cannot add visit if expired
+        if (isExpired.value) return false;
+
+        return true;
     });
 
     const canRemoveVisit = computed<boolean>(() => {
