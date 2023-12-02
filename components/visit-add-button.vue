@@ -1,5 +1,5 @@
 <template>
-  <button type="button" class="btn btn-primary btn-outline md:btn-wide rounded-full px-10">
-    <icon-plus class="w-8 h-8"/>
-  </button>
+  <ui-button color="primary" class="px-10" outline>
+    <icon-plus class="w-8 h-8" />
+  </ui-button>
 </template>
