@@ -21,11 +21,13 @@ const {
       </h1>
     </header>
 
-    <visit-date-range
-      v-for="visit in visits"
-      v-model:enter-date="visit.enterDate"
-      v-model:exit-date="visit.exitDate"
-    />
+    <div class="w-full max-w-5xl space-y-5">
+      <visit-date-range
+        v-for="visit in visits"
+        v-model:enter-date="visit.enterDate"
+        v-model:exit-date="visit.exitDate"
+      />
+    </div>
 
     <div class="flex items-center justify-between gap-4 md:gap-10">
       <visit-remove-button :disabled="!canRemoveVisit" @click="removeLastVisit()" />

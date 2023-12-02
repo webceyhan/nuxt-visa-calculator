@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { differenceInDays } from "date-fns";
+import { addDays, differenceInDays } from "date-fns";
+import { MAX_DAYS_PER_VISIT } from "~/constants";
 import { formatDate, parseDate } from "~/utils";
 
 interface Props {
@@ -22,11 +23,17 @@ const exitDateStrProxy = computed({
 });
 
 const days = computed(() => differenceInDays(props.exitDate, props.enterDate));
+
+const maxDateStr = computed(() => {
+  const date = addDays(props.enterDate, MAX_DAYS_PER_VISIT);
+
+  return formatDate(date);
+});
 </script>
 
 <template>
   <div
-    class="flex flex-row items-end justify-around w-full max-w-5xl rounded-box md:bg-base-200 md:p-6 gap-4"
+    class="flex flex-row items-end justify-around w-full rounded-box md:bg-base-200 md:p-6 gap-4"
   >
     <!-- suitcase icon -->
 
@@ -61,6 +68,7 @@ const days = computed(() => differenceInDays(props.exitDate, props.enterDate));
       :label="$t('date.exit')"
       type="date"
       :min="enterDateStrProxy"
+      :max="maxDateStr"
       v-model="exitDateStrProxy"
     />
 
