@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { differenceInDays } from "date-fns";
 import { formatDate, parseDate } from "~/utils";
 
 interface Props {
@@ -19,17 +20,34 @@ const exitDateStrProxy = computed({
   get: () => formatDate(props.exitDate),
   set: (value) => emit("update:exitDate", parseDate(value, props.exitDate)),
 });
+
+const days = computed(() => differenceInDays(props.exitDate, props.enterDate));
 </script>
 
 <template>
-  <div class="flex flex-row w-full items-center justify-center gap-4 md:gap-10">
+  <div
+    class="flex flex-row items-end justify-around w-full max-w-5xl rounded-box md:bg-base-200 md:p-6 gap-4"
+  >
+    <!-- suitcase icon -->
+
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="currentColor"
+      class="bi bi-suitcase-fill max-md:hidden w-12 h-12 opacity-50 mb-3 text-info"
+      viewBox="0 0 16 16"
+    >
+      <path
+        d="M6 .5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V3h1.5A1.5 1.5 0 0 1 13 4.5v9a1.5 1.5 0 0 1-1.004 1.416A1 1 0 1 1 10 15H6a1 1 0 1 1-1.997-.084A1.5 1.5 0 0 1 3 13.5v-9A1.5 1.5 0 0 1 4.5 3H6zM9 1H7v2h2zM6 5.5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0zm2.5 0a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0zm2.5 0a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0z"
+      />
+    </svg>
+
     <!-- enter date -->
     <form-control :label="$t('date.enter')" type="date" v-model="enterDateStrProxy" />
 
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="currentColor"
-      class="max-md:hidden w-8 h-8 opacity-50 mt-8"
+      class="max-md:hidden w-8 h-8 opacity-50 mb-3"
       viewBox="0 0 16 16"
     >
       <path
@@ -45,5 +63,12 @@ const exitDateStrProxy = computed({
       :min="enterDateStrProxy"
       v-model="exitDateStrProxy"
     />
+
+    <stat class="max-md:hidden w-12 p-0">
+      <countdown :value="days" class="mb-0 p-0" />
+      <template #desc>
+        {{ $t("days.count") }}
+      </template>
+    </stat>
   </div>
 </template>

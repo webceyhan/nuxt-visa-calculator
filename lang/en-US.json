@@ -6,6 +6,7 @@
         "validUntil": "Valid Until"
     },
     "days": {
+        "count": "Days",
         "used": "Used Days",
         "remaining": "Remaining Days",
         "maxAllowed": "Max {days} days from enter date"

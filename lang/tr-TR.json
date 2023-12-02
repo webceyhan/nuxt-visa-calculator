@@ -6,6 +6,7 @@
         "validUntil": "Geçerlilik Tarihi"
     },
     "days": {
+        "count": "Gün",
         "used": "Kullanılan Gün",
         "remaining": "Kalan Gün",
         "maxAllowed": "Giriş tarihinden itibaren en fazla {days} gün"
