@@ -1,55 +1,83 @@
-import {
-    addDays,
-    differenceInDays,
-    lightFormat,
-    isAfter,
-    isValid,
-} from 'date-fns';
-import { MAX_DAYS, MAX_DAYS_INTERVAL, TODAY } from '~/constants';
+import { addDays, differenceInDays, lightFormat, isAfter } from 'date-fns';
+import { MAX_DAYS_PER_VISIT, MAX_DAYS_INTERVAL, TODAY } from '~/constants';
+
+interface Visit {
+    enterDate: Date;
+    exitDate: Date;
+}
 
 export const useDateFormula = () => {
-    // yyyy-mm-dd
-    const enterDate = ref('');
-    const exitDate = ref('');
+    // STATE
+    const visits = reactive<Visit[]>([
+        {
+            // first visit
+            enterDate: addDays(TODAY, 0),
+            exitDate: addDays(TODAY, MAX_DAYS_PER_VISIT),
+        },
+    ]);
 
-    const canExit = computed(() => enterDate.value !== '');
+    // GETTERS
+    const firstVisit = computed<Visit>(() => visits[0]);
+    const lastVisit = computed<Visit>(() => visits[visits.length - 1]);
 
     const expireDate = computed<Date>(() => {
-        const entered = new Date(enterDate.value);
-
-        if (!isValid(entered)) return TODAY;
-
-        return addDays(entered, MAX_DAYS_INTERVAL);
-    });
-
-    const expireDateFormatted = computed<string>(() => {
-        return lightFormat(expireDate.value, 'dd / MM / yyyy');
+        return addDays(firstVisit.value.enterDate, MAX_DAYS_INTERVAL);
     });
 
     const usedDays = computed<number>(() => {
-        const entered = new Date(enterDate.value);
-        const exited = new Date(exitDate.value);
-        const days = differenceInDays(exited, entered);
+        const days = visits.reduce((acc, { exitDate, enterDate }) => {
+            return acc + differenceInDays(exitDate, enterDate);
+        }, 0);
 
-        return days < 0 ? 0 : days > MAX_DAYS ? MAX_DAYS : days;
+        if (days > MAX_DAYS_PER_VISIT) {
+            return MAX_DAYS_PER_VISIT;
+        }
+
+        return days < 0 ? 0 : days;
     });
 
     const remainingDays = computed<number>(() => {
-        return MAX_DAYS - usedDays.value;
+        return MAX_DAYS_PER_VISIT - usedDays.value;
+    });
+
+    const expireDateStr = computed<string>(() => {
+        return lightFormat(expireDate.value, 'dd / MM / yyyy');
     });
 
     const isExpired = computed<boolean>(() => {
         return isAfter(TODAY, expireDate.value);
     });
 
+    const canAddVisit = computed<boolean>(() => {
+        return visits.length < MAX_DAYS_PER_VISIT;
+    });
+
+    const canRemoveVisit = computed<boolean>(() => {
+        return visits.length > 1;
+    });
+
+    // ACTIONS
+    const addNextVisit = (): void => {
+        visits.push({
+            enterDate: lastVisit.value.exitDate,
+            exitDate: addDays(lastVisit.value.exitDate, MAX_DAYS_PER_VISIT),
+        });
+    };
+
+    const removeLastVisit = (): void => {
+        visits.pop();
+    };
+
     return {
-        enterDate,
-        exitDate,
-        expireDate,
-        expireDateFormatted,
+        visits,
         usedDays,
         remainingDays,
+        expireDateStr,
         isExpired,
-        canExit,
+        lastVisit,
+        addNextVisit,
+        removeLastVisit,
+        canAddVisit,
+        canRemoveVisit,
     };
 };

@@ -4,8 +4,8 @@ export const DATE_FORMAT = 'yyyy-MM-dd';
 // date of today
 export const TODAY = new Date();
 
-// maximum days of stay
-export const MAX_DAYS = 90;
+// maximum days of visit
+export const MAX_DAYS_PER_VISIT = 90;
 
-// maximum days of interval between enter and exit
+// maximum days of interval between first and last visit
 export const MAX_DAYS_INTERVAL = 180;

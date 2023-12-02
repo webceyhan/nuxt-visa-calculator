@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import { MAX_DAYS, MAX_DAYS_INTERVAL } from "~/constants";
+import { MAX_DAYS_PER_VISIT, MAX_DAYS_INTERVAL } from "~/constants";
 const {
-  enterDate,
-  exitDate,
+  visits,
   usedDays,
   remainingDays,
+  expireDateStr,
   isExpired,
-  expireDateFormatted,
-  canExit,
+  addNextVisit,
+  removeLastVisit,
+  canAddVisit,
+  canRemoveVisit,
 } = useDateFormula();
 </script>
 
@@ -19,35 +21,21 @@ const {
       </h1>
     </header>
 
-    <div class="flex flex-col md:flex-row w-full items-center justify-center gap-10">
-      <!-- enter date -->
-      <form-control :label="$t('date.enter')" type="date" v-model="enterDate" />
+    <visit-date-range
+      v-for="visit in visits"
+      v-model:enter-date="visit.enterDate"
+      v-model:exit-date="visit.exitDate"
+    />
 
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="currentColor"
-        class="max-md:hidden w-8 h-8 opacity-50 mt-8"
-        viewBox="0 0 16 16"
-      >
-        <path
-          fill-rule="evenodd"
-          d="M1 11.5a.5.5 0 0 0 .5.5h11.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 11H1.5a.5.5 0 0 0-.5.5m14-7a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H14.5a.5.5 0 0 1 .5.5"
-        />
-      </svg>
-
-      <!-- exit date -->
-      <form-control
-        :label="$t('date.exit')"
-        type="date"
-        v-model="exitDate"
-        :disabled="!canExit"
-      />
+    <div class="flex items-center justify-between md:my-10 gap-10">
+      <visit-remove-button :disabled="!canRemoveVisit" @click="removeLastVisit()" />
+      <visit-add-button :disabled="!canAddVisit" @click="addNextVisit()" />
     </div>
 
     <stat-group class="max-md:stats-vertical md:my-10 max-sm:w-full">
       <stat :title="$t('days.used')">
         <countdown :value="usedDays" />
-        <span class="opacity-50"> / {{ MAX_DAYS }} </span>
+        <span class="opacity-50"> / {{ MAX_DAYS_PER_VISIT }} </span>
       </stat>
 
       <stat :title="$t('days.remaining')">
@@ -61,7 +49,7 @@ const {
             'text-error': isExpired,
           }"
         >
-          {{ expireDateFormatted }}
+          {{ expireDateStr }}
         </span>
 
         <template #desc>
