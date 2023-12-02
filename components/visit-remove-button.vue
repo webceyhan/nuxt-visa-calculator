@@ -1,15 +1,5 @@
 <template>
   <button type="button" class="btn btn-error btn-outline md:btn-wide rounded-full px-10">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="currentColor"
-      class="bi bi-dash-lg w-8 h-8"
-      viewBox="0 0 16 16"
-    >
-      <path
-        fill-rule="evenodd"
-        d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8"
-      />
-    </svg>
+    <icon-minus class="w-8 h-8"/>
   </button>
 </template>
