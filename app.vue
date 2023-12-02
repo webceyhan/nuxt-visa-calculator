@@ -34,17 +34,17 @@ const {
       <visit-add-button :disabled="!canAddVisit" @click="addNextVisit()" />
     </div>
 
-    <stat-group class="max-md:stats-vertical w-full md:justify-between md:max-w-3xl">
-      <stat :title="$t('days.used')">
-        <countdown :value="usedDays" />
+    <ui-stat-group class="max-md:stats-vertical w-full md:justify-between md:max-w-3xl">
+      <ui-stat :title="$t('days.used')">
+        <ui-countdown :value="usedDays" />
         <span class="opacity-50"> / {{ MAX_DAYS_PER_VISIT }} </span>
-      </stat>
+      </ui-stat>
 
-      <stat :title="$t('days.remaining')">
-        <countdown :value="remainingDays" :class="{ 'line-through': isExpired }" />
-      </stat>
+      <ui-stat :title="$t('days.remaining')">
+        <ui-countdown :value="remainingDays" :class="{ 'line-through': isExpired }" />
+      </ui-stat>
 
-      <stat :title="$t('date.validUntil')">
+      <ui-stat :title="$t('date.validUntil')">
         <span
           :class="{
             'text-success': !isExpired,
@@ -57,7 +57,7 @@ const {
         <template #desc>
           {{ $t("days.maxAllowed", { days: MAX_DAYS_INTERVAL }) }}
         </template>
-      </stat>
-    </stat-group>
+      </ui-stat>
+    </ui-stat-group>
   </div>
 </template>

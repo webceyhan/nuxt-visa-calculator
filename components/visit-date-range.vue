@@ -39,13 +39,13 @@ const maxDateStr = computed(() => {
     <icon-suitcase class="max-md:hidden w-12 h-12 opacity-50 mb-3 text-info" />
 
     <!-- enter date -->
-    <form-control :label="$t('date.enter')" type="date" v-model="enterDateStrProxy" />
+    <ui-form-control :label="$t('date.enter')" type="date" v-model="enterDateStrProxy" />
 
     <!-- exchange icon -->
     <icon-exchange class="max-md:hidden w-8 h-8 opacity-50 mb-3" />
 
     <!-- exit date -->
-    <form-control
+    <ui-form-control
       :label="$t('date.exit')"
       type="date"
       :min="enterDateStrProxy"
@@ -54,11 +54,11 @@ const maxDateStr = computed(() => {
     />
 
     <!-- days -->
-    <stat class="max-md:hidden w-12 p-0">
-      <countdown :value="days" class="mb-0 p-0" />
+    <ui-stat class="max-md:hidden w-12 p-0">
+      <ui-countdown :value="days" class="mb-0 p-0" />
       <template #desc>
         {{ $t("days.count") }}
       </template>
-    </stat>
+    </ui-stat>
   </div>
 </template>
