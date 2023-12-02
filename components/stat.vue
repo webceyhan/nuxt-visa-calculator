@@ -9,9 +9,10 @@ defineProps<Props>();
 
 <template>
   <div class="stat">
-    <div class="stat-figure text-secondary">
+    <div v-if="$slots.figure" class="stat-figure text-secondary">
       <slot name="figure" />
     </div>
+
     <div v-if="title" class="stat-title">
       {{ title }}
     </div>
