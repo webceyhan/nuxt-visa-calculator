@@ -29,10 +29,12 @@ const {
       />
     </div>
 
-    <div class="flex items-center justify-between gap-4 md:gap-10">
-      <visit-remove-button :disabled="!canRemoveVisit" @click="removeLastVisit()" />
-      <visit-add-button :disabled="!canAddVisit" @click="addNextVisit()" />
-    </div>
+    <visit-list-actions
+      :can-add="canAddVisit"
+      :can-remove="canRemoveVisit"
+      @add="addNextVisit()"
+      @remove="removeLastVisit()"
+    />
 
     <ui-stat-group class="max-md:stats-vertical w-full md:justify-between md:max-w-3xl">
       <ui-stat :title="$t('days.used')">
