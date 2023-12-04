@@ -1,9 +1,16 @@
-import { addDays, differenceInDays, lightFormat, isAfter } from 'date-fns';
+import {
+    addDays,
+    lightFormat,
+    isAfter,
+    differenceInCalendarDays,
+} from 'date-fns';
 import { MAX_DAYS_PER_VISIT, MAX_DAYS_INTERVAL, TODAY } from '~/constants';
 
 interface Visit {
     enterDate: Date;
     exitDate: Date;
+    minDate: Date;
+    maxDate: Date;
 }
 
 export const useVisits = () => {
@@ -12,7 +19,9 @@ export const useVisits = () => {
         {
             // first visit
             enterDate: addDays(TODAY, 0),
-            exitDate: addDays(TODAY, MAX_DAYS_PER_VISIT),
+            exitDate: addDays(TODAY, 1),
+            minDate: addDays(TODAY, -MAX_DAYS_INTERVAL),
+            maxDate: addDays(TODAY, MAX_DAYS_PER_VISIT),
         },
     ]);
 
@@ -26,7 +35,7 @@ export const useVisits = () => {
 
     const usedDays = computed<number>(() => {
         const days = visits.reduce((acc, { exitDate, enterDate }) => {
-            return acc + differenceInDays(exitDate, enterDate);
+            return acc + differenceInCalendarDays(exitDate, enterDate);
         }, 0);
 
         if (days > MAX_DAYS_PER_VISIT) {
@@ -64,10 +73,12 @@ export const useVisits = () => {
 
     // ACTIONS
     const addNextVisit = (): void => {
-        visits.push({
-            enterDate: lastVisit.value.exitDate,
-            exitDate: addDays(lastVisit.value.exitDate, MAX_DAYS_PER_VISIT),
-        });
+        const minDate = addDays(lastVisit.value.exitDate, 0);
+        const maxDate = addDays(minDate, MAX_DAYS_PER_VISIT);
+        const enterDate = addDays(minDate, 0);
+        const exitDate = addDays(minDate, 1);
+
+        visits.push(<Visit>{ enterDate, exitDate, minDate, maxDate });
     };
 
     const removeLastVisit = (): void => {

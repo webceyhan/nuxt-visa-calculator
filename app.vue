@@ -24,6 +24,8 @@ const {
     <div class="w-full max-w-5xl space-y-5">
       <visit-date-range
         v-for="visit in visits"
+        :min-date="visit.minDate"
+        :max-date="visit.maxDate"
         v-model:enter-date="visit.enterDate"
         v-model:exit-date="visit.exitDate"
       />

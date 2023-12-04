@@ -1,16 +1,26 @@
 <script setup lang="ts">
-import { addDays, differenceInDays } from "date-fns";
+import { addDays, differenceInCalendarDays } from "date-fns";
 import { MAX_DAYS_PER_VISIT } from "~/constants";
 import { formatDate, parseDate } from "~/utils";
 
 interface Props {
   enterDate: Date;
   exitDate: Date;
+  minDate: Date;
+  maxDate: Date;
 }
 
 const emit = defineEmits(["update:enterDate", "update:exitDate"]);
 
 const props = defineProps<Props>();
+
+const minDateStr = computed(() => formatDate(props.minDate));
+
+const maxDateStr = computed(() => {
+  const maxDate = addDays(props.enterDate, MAX_DAYS_PER_VISIT);
+
+  return formatDate(maxDate);
+});
 
 const enterDateStrProxy = computed({
   get: () => formatDate(props.enterDate),
@@ -22,13 +32,19 @@ const exitDateStrProxy = computed({
   set: (value) => emit("update:exitDate", parseDate(value, props.exitDate)),
 });
 
-const days = computed(() => differenceInDays(props.exitDate, props.enterDate));
+// this will only mesaure the difference in days, ignoring the time
+const days = computed(() => differenceInCalendarDays(props.exitDate, props.enterDate));
 
-const maxDateStr = computed(() => {
-  const date = addDays(props.enterDate, MAX_DAYS_PER_VISIT);
-
-  return formatDate(date);
-});
+watch(
+  () => props.enterDate,
+  (enterDate) => {
+    // if enterDate is after exitDate, set exitDate to next day
+    // to prevent exitDate from being before enterDate
+    if (enterDate >= props.exitDate) {
+      emit("update:exitDate", addDays(enterDate, 1));
+    }
+  }
+);
 </script>
 
 <template>
@@ -39,15 +55,20 @@ const maxDateStr = computed(() => {
     <icon-suitcase class="max-md:hidden w-12 h-12 opacity-50 mb-3 text-info" />
 
     <!-- enter date -->
-    <ui-form-control :label="$t('date.enter')" type="date" v-model="enterDateStrProxy" />
+    <ui-form-control
+      type="date"
+      :label="$t('date.enter')"
+      :min="minDateStr"
+      v-model="enterDateStrProxy"
+    />
 
     <!-- exchange icon -->
     <icon-exchange class="max-md:hidden w-8 h-8 opacity-50 mb-3" />
 
     <!-- exit date -->
     <ui-form-control
-      :label="$t('date.exit')"
       type="date"
+      :label="$t('date.exit')"
       :min="enterDateStrProxy"
       :max="maxDateStr"
       v-model="exitDateStrProxy"
