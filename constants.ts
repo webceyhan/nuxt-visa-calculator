@@ -2,7 +2,11 @@
 export const DATE_FORMAT = 'yyyy-MM-dd';
 
 // date of today
-export const TODAY = new Date();
+export const TODAY = new Date(
+    new Date().getFullYear(),
+    new Date().getMonth(),
+    new Date().getDate()
+);
 
 // maximum days of visit
 export const MAX_DAYS_PER_VISIT = 90;
