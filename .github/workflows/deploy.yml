@@ -15,6 +15,7 @@ jobs:
 
             - name: Install and Build
               env:
+                  # '/<repository>/' i.e. '/github-repo-name/'
                   NUXT_APP_BASE_URL: ${{ secrets.NUXT_APP_BASE_URL }}
               run: |
                   bun install
